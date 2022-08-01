@@ -1,4 +1,4 @@
-﻿using Entities.Abstract;
+﻿using Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,8 +11,7 @@ namespace Entities.Concrete
     //Every class has to get an inheritance.
     public class Category : IEntity
     {
-        [Key]
-        public int CategorytId { get; set; }
+        public int CategoryId { get; set; }
         public string CategoryName { get; set; }
     }
 }
