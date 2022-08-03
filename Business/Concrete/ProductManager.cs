@@ -2,6 +2,7 @@
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
+using Entities.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,13 @@ namespace Business.Concrete
         {
             _productDal = productDal;
         }
+
+        public void Add(Product product)
+        {
+            //business codes.
+            _productDal.Add(product);
+        }
+
         public List<Product> GetAll()
         {
             var listedProduct = _productDal.GetAll();
@@ -28,9 +36,19 @@ namespace Business.Concrete
             return _productDal.GetAll(p => p.CategoryId == id);
         }
 
+        public Product GetById(int id)
+        {
+            return _productDal.Get(p => p.ProductId == id);
+        }
+
         public List<Product> GetByUnitePrice(decimal min, decimal max)
         {
             return _productDal.GetAll(p => p.UnitPrice >= min && p.UnitPrice <= max);
+        }
+
+        public List<ProductDetailDto> GetProductDetails()
+        {
+            return _productDal.GetProductsDetails();
         }
     }
 }

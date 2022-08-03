@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Core.DataAccess
 {
     // new() is for T can called with new();
-    public interface IEntityRepository<T> where T : class,IEntity,new()
+    public interface IEntityRepository<T> where T : class, IEntity, new()
     {
         List<T> GetAll(Expression<Func<T,bool>> filter = null);
         T Get(Expression<Func<T, bool>> filter);
