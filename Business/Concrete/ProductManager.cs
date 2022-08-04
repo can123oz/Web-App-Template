@@ -34,28 +34,34 @@ namespace Business.Concrete
         public IDataResult<List<Product>> GetAll()
         {
             var listedProduct = _productDal.GetAll();
-            return new DataResult<List<Product>>(listedProduct,true,"Products listed.");
+            if (DateTime.Now.Hour == 22)
+            {
+                //frontend ci burdan liste geldiğini bilmeli ona gore yazıcak.
+                return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
+            }
+            return new SuccessDataResult<List<Product>>(listedProduct, Messages.ProductsListed);
         }
 
         public IDataResult<List<Product>> GetAllByCategoryId(int id)
         {
             var listCategoryId = _productDal.GetAll(p => p.CategoryId == id);
-            return new DataResult<List<Product>>(listCategoryId, true, "Category returned");
+            return new SuccessDataResult<List<Product>>(listCategoryId);
         }
-        
+
         public IDataResult<Product> GetById(int id)
         {
-            return new DataResult<Product>(_productDal.Get(p => p.ProductId == id),true);
+            return new SuccessDataResult<Product>(_productDal.Get(p => p.ProductId == id));
         }
 
         public IDataResult<List<Product>> GetByUnitePrice(decimal min, decimal max)
         {
-            return new DataResult<List<Product>>(_productDal.GetAll(p => p.UnitPrice >= min && p.UnitPrice <= max),true);
+            return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.UnitPrice >= min && p.UnitPrice <= max));
         }
 
         public IDataResult<List<ProductDetailDto>> GetProductDetails()
         {
-            return new DataResult<List<ProductDetailDto>>(_productDal.GetProductsDetails(),true);
+            var result = _productDal.GetProductsDetails();
+            return new SuccessDataResult<List<ProductDetailDto>>(result, Messages.MaintenanceTime);
         }
     }
 }
