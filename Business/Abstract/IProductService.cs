@@ -11,6 +11,7 @@ namespace Business.Abstract
 {
     public interface IProductService
     {
+        // RESTFUL -----> HTTP protocols
         IDataResult<List<Product>> GetAll();
         IDataResult<List<Product>> GetAllByCategoryId(int id);
         IDataResult<List<Product>> GetByUnitePrice(decimal min, decimal max);
