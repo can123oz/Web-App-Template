@@ -22,10 +22,38 @@ namespace WebAPI.Controllers
             _productManager = productManager;
         }
         [HttpGet]
-        public List<Product> Get()
+        public IActionResult Get()
         {
-            var result = _productManager.GetAll().Data;
-            return result;
+            var result = _productManager.GetAll();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
+
+        [HttpGet("id/{id}")]
+        public IActionResult Get(int id)
+        {
+            var result = _productManager.GetById(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpPost]
+        public IActionResult Post([FromBody]Product product)
+        {
+            var result = _productManager.Add(product);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+
     }
 }

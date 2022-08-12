@@ -50,7 +50,12 @@ namespace Business.Concrete
 
         public IDataResult<Product> GetById(int id)
         {
-            return new SuccessDataResult<Product>(_productDal.Get(p => p.ProductId == id));
+            var result = _productDal.Get(p => p.ProductId == id);
+            if (result != null)
+            {
+                return new SuccessDataResult<Product>(result,Messages.ProductsListed);
+            }
+            return new ErrorDataResult<Product>(result, Messages.NotFound);
         }
 
         public IDataResult<List<Product>> GetByUnitePrice(decimal min, decimal max)
