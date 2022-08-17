@@ -21,6 +21,7 @@ namespace WebAPI.Controllers
         {
             _productManager = productManager;
         }
+
         [HttpGet]
         public IActionResult Get()
         {
@@ -53,7 +54,6 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
-
 
     }
 }
