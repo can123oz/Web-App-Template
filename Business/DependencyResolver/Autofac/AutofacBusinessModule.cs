@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Autofac.Extras.DynamicProxy;
 using Business.Abstract;
+using Business.CCS;
 using Business.Concrete;
 using Castle.DynamicProxy;
 using Core.Utilities.Interceptors;
@@ -22,7 +23,7 @@ namespace Business.DependencyResolver.Autofac
             //services.AddSingleton<IProductService, ProductManager>() ---> same here
             builder.RegisterType<ProductManager>().As<IProductService>().SingleInstance();
             builder.RegisterType<EfProductDal>().As<IProductDal>().SingleInstance();
-
+            builder.RegisterType<FileLogger>().As<ILogger>().SingleInstance();
 
             //for intercepting when a class is genereted. after these lines our attribute validations works.
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
