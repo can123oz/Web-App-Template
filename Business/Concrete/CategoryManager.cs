@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -19,16 +21,30 @@ namespace Business.Concrete
         }
         
 
-        public List<Category> GetAll()
+        public IDataResult<List<Category>> GetAll()
         {
             var categories = _categoryDal.GetAll();
-            return categories;
+            return new DataResult<List<Category>>(categories,true,Messages.SuccessMessage);
         }
 
-        public Category GetById(int categoryId)
+        public IDataResult<Category> GetById(int categoryId)
         {
             var category = _categoryDal.Get(p => p.CategoryId == categoryId);
-            return category;
+            if (category != null)
+            {
+                return new DataResult<Category>(category, true);
+            }
+            return new ErrorDataResult<Category>();
+        }
+
+        public IResult CheckCategoryLimit(int max)
+        {
+            var categoryNumber = _categoryDal.GetAll();
+            if (categoryNumber.Count >= max)
+            {
+                return new ErrorResult("max number reached.");
+            }
+            return new SuccessResult();
         }
     }
 }

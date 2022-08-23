@@ -16,5 +16,6 @@ namespace Business.Constants
         public static string NotFound = "Not Found";
         public static string GeneralErrorMessage = "An Error Pops";
         public static string NameTakenError = "Name has taken";
+        public static string SuccessMessage = "Successfuly returned";
     }
 }

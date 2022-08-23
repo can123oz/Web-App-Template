@@ -22,5 +22,18 @@ namespace Core.Utilities.Business
             }
             return null;
         }
+        
+        public static List<IResult> GetErrors(params IResult[] logics)
+        {
+            List<IResult> errorResults = new List<IResult>();
+            foreach (var logic in logics)
+            {
+                if (!logic.Success)
+                {
+                    errorResults.Add(logic);
+                }
+            }
+            return errorResults;
+        }
     }
 }

@@ -25,6 +25,9 @@ namespace Business.DependencyResolver.Autofac
             builder.RegisterType<EfProductDal>().As<IProductDal>().SingleInstance();
             builder.RegisterType<FileLogger>().As<ILogger>().SingleInstance();
 
+            builder.RegisterType<CategoryManager>().As<ICategoryService>().SingleInstance();
+            builder.RegisterType<EfCategoryDal>().As<ICategoryDal>().SingleInstance();
+
             //for intercepting when a class is genereted. after these lines our attribute validations works.
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 

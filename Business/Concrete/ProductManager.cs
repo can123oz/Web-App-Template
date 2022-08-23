@@ -22,9 +22,12 @@ namespace Business.Concrete
     public class ProductManager : IProductService
     {
         IProductDal _productDal;
+        ICategoryService _categoryService;
         ILogger _logger;
-        public ProductManager(IProductDal productDal, ILogger logger)
+
+        public ProductManager(IProductDal productDal, ILogger logger, ICategoryService categoryService)
         {
+            _categoryService = categoryService;
             _logger = logger;
             _productDal = productDal;
         }
@@ -34,14 +37,17 @@ namespace Business.Concrete
         {
             //No need to validate inside of the class.
             //ValidationTool.Validate(new ProductValidator(), product);
-            BusinessRules.Run();
-             
-            if(CheckIfProductCountOfCategoryCorrect(product.CategoryId, 10).Success && CheckIfProductNameTaken("deneme").Success)
+            IResult result = BusinessRules.Run(CheckIfProductCountOfCategoryCorrect(product.CategoryId, 10), 
+                CheckIfProductNameTaken(product.ProductName), 
+                _categoryService.CheckCategoryLimit(15));
+            
+            if(result != null)
             {
-                _productDal.Add(product);
-                return new SuccessResult(Messages.ProductAdded);
+                return result;   
             }
-            return new ErrorResult(Messages.GeneralErrorMessage);
+
+            _productDal.Add(product);
+            return new SuccessResult(Messages.ProductAdded);
         }
 
         public IDataResult<List<Product>> GetAll()
@@ -109,5 +115,6 @@ namespace Business.Concrete
             }
             return new SuccessResult();
         }
+
     }
 }

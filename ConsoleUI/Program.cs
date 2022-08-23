@@ -15,21 +15,21 @@ namespace ConsoleUI
             //{
             //    Console.WriteLine(item.CategoryName);
             //}
-            ProductManager productManager = new ProductManager(new EfProductDal());
+            //ProductManager productManager = new ProductManager(new EfProductDal(), ,new CategoryManager(new EfCategoryDal()));
 
-            var result = productManager.GetProductDetails();
-            Console.WriteLine(result.Message);
-            if (result.Success == true)
-            {
-                foreach (var item in result.Data)
-                {
-                    Console.WriteLine(item + " / " + item + " / " );
-                }
-            }
-            else
-            {
-                Console.WriteLine(result.Message);
-            }
+            //var result = productManager.GetProductDetails();
+            //Console.WriteLine(result.Message);
+            //if (result.Success == true)
+            //{
+            //    foreach (var item in result.Data)
+            //    {
+            //        Console.WriteLine(item + " / " + item + " / " );
+            //    }
+            //}
+            //else
+            //{
+            //    Console.WriteLine(result.Message);
+            //}
             Console.ReadLine();
         }
     }
