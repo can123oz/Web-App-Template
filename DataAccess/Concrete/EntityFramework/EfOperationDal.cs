@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class EfOperationDal : EfEntityRepositoryBase<OperationClaim,NorthwindContext>,IOperationDal
+    public class EfOrderDal : EfEntityRepositoryBase<OperationClaim,NorthwindContext>,IOperationDal
     {
          
     }

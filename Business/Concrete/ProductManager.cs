@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.CCS;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
@@ -32,14 +33,15 @@ namespace Business.Concrete
             _productDal = productDal;
         }
 
+        [SecuredOperation("product.add, admin")]
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
             //No need to validate inside of the class.
             //ValidationTool.Validate(new ProductValidator(), product);
-            IResult result = BusinessRules.Run(CheckIfProductCountOfCategoryCorrect(product.CategoryId, 10), 
+            IResult result = BusinessRules.Run(CheckIfProductCountOfCategoryCorrect(product.CategoryId, 20), 
                 CheckIfProductNameTaken(product.ProductName), 
-                _categoryService.CheckCategoryLimit(15));
+                _categoryService.CheckCategoryLimit(35));
             
             if(result != null)
             {
