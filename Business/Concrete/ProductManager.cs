@@ -3,7 +3,9 @@ using Business.BusinessAspects.Autofac;
 using Business.CCS;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Caching;
 using Core.Aspects.Validation;
+using Core.CrossCuttingConcerns.Caching;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
@@ -52,10 +54,16 @@ namespace Business.Concrete
             return new SuccessResult(Messages.ProductAdded);
         }
 
+        public IResult AddTransactionalTest(Product product)
+        {
+            throw new NotImplementedException();
+        }
+
+        //[CacheAspect]
         public IDataResult<List<Product>> GetAll()
         {
             var listedProduct = _productDal.GetAll();
-            if (DateTime.Now.Hour == 22)
+            if (DateTime.Now.Hour == 03)
             {
                 //frontend ci burdan liste geldiğini bilmeli ona gore yazıcak.
                 return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
@@ -69,6 +77,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Product>>(listCategoryId);
         }
 
+        [CacheAspect]
         public IDataResult<Product> GetById(int id)
         {
             var result = _productDal.Get(p => p.ProductId == id);
@@ -81,6 +90,7 @@ namespace Business.Concrete
 
         public IDataResult<List<Product>> GetByUnitePrice(decimal min, decimal max)
         {
+            
             return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.UnitPrice >= min && p.UnitPrice <= max));
         }
 
@@ -91,9 +101,15 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(ProductValidator))]
+        [CacheRemoveAspect("IProductService.Get")]
         public IResult Update(Product product)
         {
-            throw new NotImplementedException();
+            var newProduct = _productDal.Get(p => p.ProductId == product.ProductId);
+            if (newProduct != null)
+            {
+                _productDal.Update(product);
+            }
+            return new ErrorResult(Messages.GeneralErrorMessage);
         }
 
         //I want this method only for this class

@@ -30,7 +30,47 @@ namespace ConsoleUI
             //{
             //    Console.WriteLine(result.Message);
             //}
+
+            sendFonksiyon sendTry = new();
+            sendTry.gmailSender(new gmail());
+            sendTry.gmailSender(new hotmail());
+
             Console.ReadLine();
+
+
         }
+
+        class sendFonksiyon
+        {
+            public string gmailSender(ImailSender _mail)
+            {
+                return _mail.send();
+            }
+        }
+
+
+        interface ImailSender
+        {
+            string send();
+        }
+
+        class gmail : ImailSender
+        {
+            public string send()
+            {
+                return "gmail picked";
+            }
+        }
+
+        class hotmail : ImailSender
+        {
+            public string send()
+            {
+                return "hotmail picked";
+            }
+        }
+
+
+
     }
 }
