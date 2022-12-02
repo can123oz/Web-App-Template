@@ -86,12 +86,16 @@ namespace WebAPI
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPI v1"));
             }
+
+            app.ConfigureCustomExceptionMiddleware(); //same thing with writing with usemiddleware
+            //app.UseMiddleware<ExceptionMiddleware>();
+
             app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowAnyHeader());
 
             app.UseHttpsRedirection();
 
-            app.UseRouting();
 
+            app.UseRouting();
             app.UseAuthentication();
 
             app.UseAuthorization();

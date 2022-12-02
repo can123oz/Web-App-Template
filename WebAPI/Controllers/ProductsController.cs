@@ -47,8 +47,8 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPost]
-        public IActionResult Add([FromBody]Product product)
+        [HttpPost("add")]   
+        public IActionResult Add(Product product)
         {
             var result = _productManager.Add(product);
             if (result.Success)
