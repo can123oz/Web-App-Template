@@ -109,6 +109,7 @@ namespace Business.Concrete
             if (newProduct != null)
             {
                 _productDal.Update(product);
+                return new SuccessResult(Messages.SuccessMessage);
             }
             return new ErrorResult(Messages.GeneralErrorMessage);
         }

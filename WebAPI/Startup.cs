@@ -43,7 +43,7 @@ namespace WebAPI
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowOrigin",
-                    builder => builder.WithOrigins("http://localhost:4200"));
+                    builder => builder.WithOrigins("http://localhost:4200").AllowAnyMethod());
             });
 
             //using autofac instead of addsingleton.
@@ -90,7 +90,7 @@ namespace WebAPI
             app.ConfigureCustomExceptionMiddleware(); //same thing with writing with usemiddleware
             //app.UseMiddleware<ExceptionMiddleware>();
 
-            app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowAnyHeader());
+            app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod());
 
             app.UseHttpsRedirection();
 
